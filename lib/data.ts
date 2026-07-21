@@ -99,20 +99,20 @@ export const DATA = {
         stack: ["TypeScript", "n8n", "Automation"],
         repo: "https://github.com/Soham-Kale/trading-n8n-monorepo",
       },
-      {
-        name: "Admin Dashboard",
-        desc: "Full-featured admin dashboard with data tables, charts, theming and responsive layouts, deployed on Vercel.",
-        stack: ["React", "TypeScript", "Charts"],
-        link: "https://admin-dashboard-xskv.vercel.app",
-        repo: "https://github.com/Soham-Kale/adminDashboard",
-      },
-      {
-        name: "Mental Health Prediction",
-        desc: "ML-powered web app that predicts mental-health risk from survey inputs and visualises the results.",
-        stack: ["JavaScript", "Machine Learning"],
-        link: "https://mental-health-prediction-one.vercel.app",
-        repo: "https://github.com/Soham-Kale/Mental-Health_prediction",
-      },
+      // {
+      //   name: "Admin Dashboard",
+      //   desc: "Full-featured admin dashboard with data tables, charts, theming and responsive layouts, deployed on Vercel.",
+      //   stack: ["React", "TypeScript", "Charts"],
+      //   link: "https://admin-dashboard-xskv.vercel.app",
+      //   repo: "https://github.com/Soham-Kale/adminDashboard",
+      // },
+      // {
+      //   name: "Mental Health Prediction",
+      //   desc: "ML-powered web app that predicts mental-health risk from survey inputs and visualises the results.",
+      //   stack: ["JavaScript", "Machine Learning"],
+      //   link: "https://mental-health-prediction-one.vercel.app",
+      //   repo: "https://github.com/Soham-Kale/Mental-Health_prediction",
+      // },
     ] as Project[],
     client: [
       {
@@ -149,12 +149,12 @@ export const DATA = {
       date: "Jun 2026",
       link: "https://www.linkedin.com/in/soham-kale-723312240/recent-activity/all/",
     },
-    {
-      title: "Shipping an Interactive 3D Portfolio",
-      blurb: "GSAP scroll choreography and Three.js scenes — where motion helps, and where it gets in the way.",
-      date: "Apr 2026",
-      link: "https://www.linkedin.com/in/soham-kale-723312240/recent-activity/all/",
-    },
+    // {
+    //   title: "Shipping an Interactive 3D Portfolio",
+    //   blurb: "GSAP scroll choreography and Three.js scenes — where motion helps, and where it gets in the way.",
+    //   date: "Apr 2026",
+    //   link: "https://www.linkedin.com/in/soham-kale-723312240/recent-activity/all/",
+    // },
   ],
 
   resume: {

@@ -576,44 +576,66 @@ a { color: inherit; }
 @media (max-width: 1080px) {
   .widget-quote, .widget-links, .widget-music, .widget-theme { display: none; }
 }
-@media (max-width: 900px) {
-  /* hide all desktop widgets on mobile */
-  .widget { display: none !important; }
+/* mobile stacked layout is hidden on desktop */
+.mobile-sections { display: none; }
 
-  /* whole page scrolls; content flows top-to-bottom */
+@media (max-width: 900px) {
+  /* hide all desktop widgets + the windowed layout on mobile */
+  .widget { display: none !important; }
+  .desktop-windows { display: none !important; }
+
+  /* whole page scrolls; every section flows top-to-bottom */
   html, body { height: auto; overflow-x: hidden; overflow-y: auto; }
 
   .desktop {
     position: static;
     inset: auto;
     min-height: calc(100vh - 38px);
-    padding: 12px 0 132px; /* leave room for the fixed dock */
+    padding: 10px 0 128px; /* leave room for the fixed dock */
   }
 
-  /* only the focused (top-most) window renders; it flows as a normal block */
-  .window { display: none; }
-  .window.open:last-of-type {
+  .mobile-sections {
     display: flex;
-    position: static !important;
-    left: auto !important;
-    top: auto !important;
-    transform: none !important;
-    opacity: 1 !important;
-    width: auto !important;
-    max-width: 100%;
-    margin: 0 10px;
-    border-radius: 12px;
-    box-shadow: none;
-    animation: none;
+    flex-direction: column;
+    gap: 14px;
   }
 
-  /* content is no longer boxed — it grows and the page scrolls */
-  .window-body {
-    max-height: none;
-    overflow: visible;
-    padding: 22px 20px 28px;
+  /* each section rendered as a static, full-width card */
+  .m-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin: 0 10px;
+    overflow: hidden;
+    scroll-margin-top: 48px;
   }
-  .window-titlebar { cursor: default; position: sticky; top: 38px; z-index: 5; }
+  .m-card-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    height: 38px;
+    padding: 0 14px;
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .m-card-dots { display: flex; gap: 6px; }
+  .m-card-dots i {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--raised);
+    border: 1px solid var(--border);
+  }
+  .m-card-dots i:first-child { background: #f65f57; border-color: #e0443c; }
+  .m-card-title {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--muted);
+  }
+  .m-card-body { padding: 22px 20px 26px; }
+
+  /* terminal section: give it usable height on mobile */
+  #m-terminal .m-card-body { font-family: var(--mono); font-size: 12.5px; }
 
   .about-name { font-size: 36px; }
 

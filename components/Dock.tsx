@@ -4,11 +4,11 @@ import { APPS, DATA, type AppId } from "@/lib/data";
 import { ICONS } from "@/lib/icons";
 
 interface DockProps {
-  openApps: AppId[];
-  onToggle: (id: AppId) => void;
+  activeIds: string[];
+  onSelect: (id: AppId) => void;
 }
 
-export default function Dock({ openApps, onToggle }: DockProps) {
+export default function Dock({ activeIds, onSelect }: DockProps) {
   const externals = [
     { id: "github", label: "GITHUB", url: DATA.profile.github },
     { id: "linkedin", label: "LINKEDIN", url: DATA.profile.linkedin },
@@ -20,8 +20,8 @@ export default function Dock({ openApps, onToggle }: DockProps) {
         {APPS.map((app) => (
           <div
             key={app.id}
-            className={`dock-item ${openApps.includes(app.id) ? "active" : ""}`}
-            onClick={() => onToggle(app.id)}
+            className={`dock-item ${activeIds.includes(app.id) ? "active" : ""}`}
+            onClick={() => onSelect(app.id)}
           >
             <button className="dock-btn" aria-label={app.label}>
               {ICONS[app.id]}

@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { WINDOW_TITLES, type AppId, type ThemeId, THEMES } from "@/lib/data";
+import { APPS, WINDOW_TITLES, type AppId, type ThemeId, THEMES } from "@/lib/data";
 import MenuBar from "@/components/MenuBar";
 import Dock from "@/components/Dock";
 import Window from "@/components/Window";
@@ -38,6 +38,8 @@ export default function Desktop() {
   const [open, setOpen] = useState<AppId[]>(["about"]);
   const [theme, setThemeState] = useState<ThemeId>("midnight");
   const [visits, setVisits] = useState<number | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+  const [mobileActive, setMobileActive] = useState<AppId>("about");
 
   /* ----- theme ----- */
   const setTheme = useCallback((t: ThemeId) => {
@@ -54,6 +56,33 @@ export default function Desktop() {
       if (saved && THEMES.some((t) => t.id === saved)) setTheme(saved);
     } catch {}
   }, [setTheme]);
+
+  /* ----- responsive: detect mobile ----- */
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 900px)");
+    const update = () => setIsMobile(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+
+  /* ----- mobile scroll-spy: highlight the section in view ----- */
+  useEffect(() => {
+    if (!isMobile) return;
+    const obs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) setMobileActive(e.target.id.replace("m-", "") as AppId);
+        });
+      },
+      { rootMargin: "-45% 0px -50% 0px" }
+    );
+    APPS.forEach((a) => {
+      const el = document.getElementById(`m-${a.id}`);
+      if (el) obs.observe(el);
+    });
+    return () => obs.disconnect();
+  }, [isMobile]);
 
   /* ----- visitors ----- */
   useEffect(() => {
@@ -88,7 +117,7 @@ export default function Desktop() {
       .catch(fallback);
   }, []);
 
-  /* ----- window manager ----- */
+  /* ----- window manager (desktop) ----- */
   const openApp = useCallback((id: AppId) => {
     setOpen((prev) => [...prev.filter((x) => x !== id), id]);
   }, []);
@@ -104,7 +133,17 @@ export default function Desktop() {
     });
   }, []);
 
-  const activeTitle = open.length ? WINDOW_TITLES[open[open.length - 1]] : "Desktop";
+  /* ----- dock click: scroll on mobile, toggle window on desktop ----- */
+  const onDockSelect = useCallback(
+    (id: AppId) => {
+      if (isMobile) {
+        document.getElementById(`m-${id}`)?.scrollIntoView({ behavior: "smooth", block: "start" });
+      } else {
+        toggleApp(id);
+      }
+    },
+    [isMobile, toggleApp]
+  );
 
   const CONTENT: Record<AppId, React.ReactNode> = {
     about: <AboutWindow />,
@@ -118,9 +157,13 @@ export default function Desktop() {
     notes: <NotesWindow />,
   };
 
+  const activeTitle = open.length ? WINDOW_TITLES[open[open.length - 1]] : "Desktop";
+  const menuTitle = isMobile ? WINDOW_TITLES[mobileActive] : activeTitle;
+  const dockActive = isMobile ? [mobileActive] : open;
+
   return (
     <>
-      <MenuBar activeApp={activeTitle} visits={visits} />
+      <MenuBar activeApp={menuTitle} visits={visits} />
       <main className="desktop">
         <QuoteWidget />
         <LinksWidget />
@@ -131,21 +174,43 @@ export default function Desktop() {
         <ThemeWidget theme={theme} setTheme={setTheme} />
         <GithubGraph />
 
-        {open.map((id, i) => (
-          <Window
-            key={id}
-            id={id}
-            title={id === "resume" ? "RÉSUMÉ — SOHAM KALE" : WINDOW_TITLES[id].toUpperCase()}
-            z={100 + i}
-            className={WINDOW_CLASS[id] || ""}
-            onClose={() => closeApp(id)}
-            onFocus={() => openApp(id)}
-          >
-            {CONTENT[id]}
-          </Window>
-        ))}
+        {/* desktop: draggable windows */}
+        <div className="desktop-windows">
+          {open.map((id, i) => (
+            <Window
+              key={id}
+              id={id}
+              title={id === "resume" ? "RÉSUMÉ — SOHAM KALE" : WINDOW_TITLES[id].toUpperCase()}
+              z={100 + i}
+              className={WINDOW_CLASS[id] || ""}
+              onClose={() => closeApp(id)}
+              onFocus={() => openApp(id)}
+            >
+              {CONTENT[id]}
+            </Window>
+          ))}
+        </div>
+
+        {/* mobile: every section stacked in one scroll */}
+        <div className="mobile-sections">
+          {APPS.map((app) => (
+            <section className="m-card" id={`m-${app.id}`} key={app.id}>
+              <div className="m-card-bar">
+                <span className="m-card-dots">
+                  <i />
+                  <i />
+                  <i />
+                </span>
+                <span className="m-card-title">
+                  {app.id === "resume" ? "RÉSUMÉ — SOHAM KALE" : app.label}
+                </span>
+              </div>
+              <div className="m-card-body">{CONTENT[app.id]}</div>
+            </section>
+          ))}
+        </div>
       </main>
-      <Dock openApps={open} onToggle={toggleApp} />
+      <Dock activeIds={dockActive} onSelect={onDockSelect} />
     </>
   );
 }
