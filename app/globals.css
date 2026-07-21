@@ -577,19 +577,54 @@ a { color: inherit; }
   .widget-quote, .widget-links, .widget-music, .widget-theme { display: none; }
 }
 @media (max-width: 900px) {
-  .widget-status, .widget-calendar, .widget-github { display: none; }
-  body { overflow: auto; }
-  .window {
-    position: fixed !important;
-    left: 50% !important;
-    top: 54px !important;
-    transform: translateX(-50%);
-    width: min(560px, calc(100vw - 20px)) !important;
+  /* hide all desktop widgets on mobile */
+  .widget { display: none !important; }
+
+  /* whole page scrolls; content flows top-to-bottom */
+  html, body { height: auto; overflow-x: hidden; overflow-y: auto; }
+
+  .desktop {
+    position: static;
+    inset: auto;
+    min-height: calc(100vh - 38px);
+    padding: 12px 0 132px; /* leave room for the fixed dock */
   }
-  .window.open { animation: none; }
-  .window-body { max-height: calc(100vh - 200px); padding: 22px 20px 26px; }
+
+  /* only the focused (top-most) window renders; it flows as a normal block */
+  .window { display: none; }
+  .window.open:last-of-type {
+    display: flex;
+    position: static !important;
+    left: auto !important;
+    top: auto !important;
+    transform: none !important;
+    opacity: 1 !important;
+    width: auto !important;
+    max-width: 100%;
+    margin: 0 10px;
+    border-radius: 12px;
+    box-shadow: none;
+    animation: none;
+  }
+
+  /* content is no longer boxed — it grows and the page scrolls */
+  .window-body {
+    max-height: none;
+    overflow: visible;
+    padding: 22px 20px 28px;
+  }
+  .window-titlebar { cursor: default; position: sticky; top: 38px; z-index: 5; }
+
   .about-name { font-size: 36px; }
-  .dock { gap: 5px; padding: 8px 10px; max-width: calc(100vw - 16px); overflow-x: auto; }
+
+  .dock {
+    gap: 5px;
+    padding: 8px 10px;
+    max-width: calc(100vw - 16px);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .dock::-webkit-scrollbar { display: none; }
   .dock-btn { width: 42px; height: 42px; }
   .menubar-date { display: none; }
 }

@@ -30,7 +30,7 @@ export const DATA = {
     githubUser: "Soham-Kale",
     github: "https://github.com/Soham-Kale",
     linkedin: "https://www.linkedin.com/in/soham-kale-723312240/",
-    email: "support@youinsports.ai", // TODO: replace with your personal email
+    email: "sohamkale3014@gmail.com", // TODO: replace with your personal email
     handle: "SOHAM-KALE",
   },
 
@@ -87,11 +87,17 @@ export const DATA = {
   projects: {
     personal: [
       {
-        name: "Interactive 3D Portfolio",
-        desc: "GSAP-powered smooth scroll and transitions with interactive Three.js + WebGL 3D experiences, on a clean React + TypeScript architecture.",
-        stack: ["React", "TypeScript", "Three.js", "GSAP", "WebGL"],
-        link: "https://soham-portfolio-gamma.vercel.app",
-        repo: "https://github.com/Soham-Kale/Soham-Portfolio",
+        name: "Kribb",
+        desc: " Built and published a full-stack property marketplace to the Play Store (testing phase), enabling buyers to browse/filter/save and sellers to list/edit/manage listings.",
+        stack: ["React Native", "TypeScript", "Supabase", "Clerk", "NativeWind", "Zod"],
+        link: "https://play.google.com/store/apps/details?id=com.kribb.app",
+        repo: "https://github.com/Soham-Kale/Kribb",
+      },
+      {
+        name: "Trading Automation (n8n)",
+        desc: "Automated trading workflows orchestrated with n8n inside a TypeScript monorepo — signals, alerts and execution glue.",
+        stack: ["TypeScript", "n8n", "Automation"],
+        repo: "https://github.com/Soham-Kale/trading-n8n-monorepo",
       },
       {
         name: "Admin Dashboard",
@@ -107,35 +113,25 @@ export const DATA = {
         link: "https://mental-health-prediction-one.vercel.app",
         repo: "https://github.com/Soham-Kale/Mental-Health_prediction",
       },
-      {
-        name: "Trading Automation (n8n)",
-        desc: "Automated trading workflows orchestrated with n8n inside a TypeScript monorepo — signals, alerts and execution glue.",
-        stack: ["TypeScript", "n8n", "Automation"],
-        repo: "https://github.com/Soham-Kale/trading-n8n-monorepo",
-      },
-      {
-        name: "Frontend Interview Questions",
-        desc: "A living collection of JavaScript and frontend interview questions with worked answers.",
-        stack: ["JavaScript"],
-        repo: "https://github.com/Soham-Kale/Frontend-Interview-Questions",
-      },
-      {
-        name: "TCS NQT Coding Questions",
-        desc: "C++ solutions to TCS NQT coding rounds — patterns, data structures and practice sets.",
-        stack: ["C++", "DSA"],
-        repo: "https://github.com/Soham-Kale/TCS-NQT-Coding-Questions",
-      },
     ] as Project[],
     client: [
       {
-        name: "Chess Platform — YouInSports",
+        name: "YouInSports",
         desc: "Stockfish-powered move analysis, opponent scouting and enriched player profiles inside a production React Native app.",
         stack: ["React Native", "Stockfish", "Python"],
+        link: "https://play.google.com/store/apps/details?id=com.uinsports",
       },
       {
-        name: "E-commerce Storefront — Code Implants",
+        name: "Barne Farms (E-commerce platform) — Code Implants",
         desc: "Product listing, cart and checkout experience with a reusable component library and Redux Toolkit state.",
-        stack: ["React", "TypeScript", "Material UI"],
+        stack: ["React Native", "TypeScript", "Material UI"],
+        link: "https://play.google.com/store/apps/details?id=com.barnefarms.app",
+      },
+      {
+        name: "Sone Taran — Code Implants",
+        desc: "Product listing, cart and checkout experience with a reusable component library and Redux Toolkit state.",
+        stack: ["React Native", "TypeScript", "Material UI"],
+        link: "https://play.google.com/store/apps/details?id=com.sonetaran",
       },
     ] as Project[],
   },
