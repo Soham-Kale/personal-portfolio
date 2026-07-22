@@ -249,157 +249,157 @@ export function UsesWindow() {
 }
 
 /* ---------------- notes ---------------- */
-export function NotesWindow() {
-  return (
-    <>
-      <div className="section-label">NOTES</div>
-      <p className="notes-intro">Raw thoughts. Not edited for an audience.</p>
-      {DATA.notes.map((n) => (
-        <div className="note-item" key={n.date}>
-          <div className="note-date">{n.date}</div>
-          {n.lines.map((l, i) => (
-            <p key={i}>{l}</p>
-          ))}
-        </div>
-      ))}
-    </>
-  );
-}
+// export function NotesWindow() {
+//   return (
+//     <>
+//       <div className="section-label">NOTES</div>
+//       <p className="notes-intro">Raw thoughts. Not edited for an audience.</p>
+//       {DATA.notes.map((n) => (
+//         <div className="note-item" key={n.date}>
+//           <div className="note-date">{n.date}</div>
+//           {n.lines.map((l, i) => (
+//             <p key={i}>{l}</p>
+//           ))}
+//         </div>
+//       ))}
+//     </>
+//   );
+// }
 
-/* ---------------- terminal ---------------- */
-interface TermLine {
-  text: string;
-  cls?: string;
-}
+// /* ---------------- terminal ---------------- */
+// interface TermLine {
+//   text: string;
+//   cls?: string;
+// }
 
-interface TerminalProps {
-  openApp: (id: AppId) => void;
-  setTheme: (t: ThemeId) => void;
-}
+// interface TerminalProps {
+//   openApp: (id: AppId) => void;
+//   setTheme: (t: ThemeId) => void;
+// }
 
-export function TerminalWindow({ openApp, setTheme }: TerminalProps) {
-  const [lines, setLines] = useState<TermLine[]>([
-    { text: "Portfolio OS  v1.0.0", cls: "term-dim" },
-    { text: 'Type "help" for available commands.', cls: "term-dim" },
-  ]);
-  const [value, setValue] = useState("");
-  const inputRef = useRef<HTMLInputElement>(null);
-  const bodyRef = useRef<HTMLDivElement>(null);
+// export function TerminalWindow({ openApp, setTheme }: TerminalProps) {
+//   const [lines, setLines] = useState<TermLine[]>([
+//     { text: "Portfolio OS  v1.0.0", cls: "term-dim" },
+//     { text: 'Type "help" for available commands.', cls: "term-dim" },
+//   ]);
+//   const [value, setValue] = useState("");
+//   const inputRef = useRef<HTMLInputElement>(null);
+//   const bodyRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    inputRef.current?.focus();
-  }, []);
+//   useEffect(() => {
+//     inputRef.current?.focus();
+//   }, []);
 
-  useEffect(() => {
-    if (bodyRef.current) bodyRef.current.scrollTop = bodyRef.current.scrollHeight;
-  }, [lines]);
+//   useEffect(() => {
+//     if (bodyRef.current) bodyRef.current.scrollTop = bodyRef.current.scrollHeight;
+//   }, [lines]);
 
-  const CMDS: Record<string, () => string> = {
-    help: () =>
-      [
-        "available commands:",
-        "  about        who is soham?",
-        "  skills       tech stack",
-        "  experience   work history",
-        "  projects     things i've built",
-        "  contact      how to reach me",
-        "  socials      github / linkedin",
-        "  open <app>   open a window (about, projects, resume...)",
-        `  theme <name> ${THEMES.map((t) => t.id).join(" | ")}`,
-        "  whoami       you, probably",
-        "  date         current date",
-        "  clear        clear the terminal",
-      ].join("\n"),
-    about: () => `${P.name} — ${P.title.toLowerCase()}\n${P.bio}`,
-    skills: () =>
-      DATA.resume.skills.map((s) => `  ${s.group.padEnd(10)} ${s.items.join(", ")}`).join("\n"),
-    experience: () =>
-      DATA.experience.map((e) => `  ${e.period.padEnd(22)} ${e.role} @ ${e.company}`).join("\n"),
-    projects: () =>
-      DATA.projects.personal.map((p) => `  ${p.name}${p.link ? "  →  " + p.link : ""}`).join("\n"),
-    contact: () => `  email     ${P.email}\n  linkedin  ${P.linkedin}\n  github    ${P.github}`,
-    socials: () => `  github    ${P.github}\n  linkedin  ${P.linkedin}`,
-    whoami: () => "guest — welcome to soham's corner of the internet.",
-    date: () => new Date().toString(),
-    sudo: () => "nice try.",
-    hello: () => "hey there 👋",
-    hi: () => "hey there 👋",
-  };
+//   const CMDS: Record<string, () => string> = {
+//     help: () =>
+//       [
+//         "available commands:",
+//         "  about        who is soham?",
+//         "  skills       tech stack",
+//         "  experience   work history",
+//         "  projects     things i've built",
+//         "  contact      how to reach me",
+//         "  socials      github / linkedin",
+//         "  open <app>   open a window (about, projects, resume...)",
+//         `  theme <name> ${THEMES.map((t) => t.id).join(" | ")}`,
+//         "  whoami       you, probably",
+//         "  date         current date",
+//         "  clear        clear the terminal",
+//       ].join("\n"),
+//     about: () => `${P.name} — ${P.title.toLowerCase()}\n${P.bio}`,
+//     skills: () =>
+//       DATA.resume.skills.map((s) => `  ${s.group.padEnd(10)} ${s.items.join(", ")}`).join("\n"),
+//     experience: () =>
+//       DATA.experience.map((e) => `  ${e.period.padEnd(22)} ${e.role} @ ${e.company}`).join("\n"),
+//     projects: () =>
+//       DATA.projects.personal.map((p) => `  ${p.name}${p.link ? "  →  " + p.link : ""}`).join("\n"),
+//     contact: () => `  email     ${P.email}\n  linkedin  ${P.linkedin}\n  github    ${P.github}`,
+//     socials: () => `  github    ${P.github}\n  linkedin  ${P.linkedin}`,
+//     whoami: () => "guest — welcome to soham's corner of the internet.",
+//     date: () => new Date().toString(),
+//     sudo: () => "nice try.",
+//     hello: () => "hey there 👋",
+//     hi: () => "hey there 👋",
+//   };
 
-  const run = (raw: string) => {
-    const next: TermLine[] = [{ text: `soham@portfolio ~ % ${raw}`, cls: "term-accent" }];
-    const [cmd, ...args] = raw.toLowerCase().split(/\s+/);
+//   const run = (raw: string) => {
+//     const next: TermLine[] = [{ text: `soham@portfolio ~ % ${raw}`, cls: "term-accent" }];
+//     const [cmd, ...args] = raw.toLowerCase().split(/\s+/);
 
-    if (!raw.trim()) {
-      setLines((l) => [...l, ...next]);
-      return;
-    }
-    if (cmd === "clear") {
-      setLines([]);
-      return;
-    }
-    if (cmd === "open") {
-      const app = args[0] as AppId;
-      if (APPS.some((a) => a.id === app)) {
-        openApp(app);
-        next.push({ text: `opening ${app}...`, cls: "term-dim" });
-      } else {
-        next.push({
-          text: `unknown app: ${args[0] || "?"} — try: ${APPS.map((a) => a.id).join(", ")}`,
-          cls: "term-dim",
-        });
-      }
-    } else if (cmd === "theme") {
-      const t = args[0] as ThemeId;
-      if (THEMES.some((x) => x.id === t)) {
-        setTheme(t);
-        next.push({ text: `theme set to ${t}`, cls: "term-dim" });
-      } else {
-        next.push({ text: `themes: ${THEMES.map((x) => x.id).join(" | ")}`, cls: "term-dim" });
-      }
-    } else if (cmd === "echo") {
-      next.push({ text: args.join(" ") });
-    } else if (CMDS[cmd]) {
-      next.push({ text: CMDS[cmd](), cls: "term-dim" });
-    } else {
-      next.push({ text: `command not found: ${cmd} — type "help"`, cls: "term-dim" });
-    }
-    setLines((l) => [...l, ...next]);
-  };
+//     if (!raw.trim()) {
+//       setLines((l) => [...l, ...next]);
+//       return;
+//     }
+//     if (cmd === "clear") {
+//       setLines([]);
+//       return;
+//     }
+//     if (cmd === "open") {
+//       const app = args[0] as AppId;
+//       if (APPS.some((a) => a.id === app)) {
+//         openApp(app);
+//         next.push({ text: `opening ${app}...`, cls: "term-dim" });
+//       } else {
+//         next.push({
+//           text: `unknown app: ${args[0] || "?"} — try: ${APPS.map((a) => a.id).join(", ")}`,
+//           cls: "term-dim",
+//         });
+//       }
+//     } else if (cmd === "theme") {
+//       const t = args[0] as ThemeId;
+//       if (THEMES.some((x) => x.id === t)) {
+//         setTheme(t);
+//         next.push({ text: `theme set to ${t}`, cls: "term-dim" });
+//       } else {
+//         next.push({ text: `themes: ${THEMES.map((x) => x.id).join(" | ")}`, cls: "term-dim" });
+//       }
+//     } else if (cmd === "echo") {
+//       next.push({ text: args.join(" ") });
+//     } else if (CMDS[cmd]) {
+//       next.push({ text: CMDS[cmd](), cls: "term-dim" });
+//     } else {
+//       next.push({ text: `command not found: ${cmd} — type "help"`, cls: "term-dim" });
+//     }
+//     setLines((l) => [...l, ...next]);
+//   };
 
-  return (
-    <div
-      className="terminal-inner"
-      ref={bodyRef}
-      onClick={() => inputRef.current?.focus()}
-      style={{ cursor: "text", minHeight: 300, display: "flex", flexDirection: "column" }}
-    >
-      <div className="term-out" style={{ flex: 1 }}>
-        {lines.map((l, i) => (
-          <div className={`term-line ${l.cls || ""}`} key={i}>
-            {l.text}
-          </div>
-        ))}
-      </div>
-      <div className="term-input-row">
-        <span className="term-prompt">soham@portfolio&nbsp;~&nbsp;%</span>
-        <input
-          ref={inputRef}
-          className="term-input"
-          type="text"
-          autoComplete="off"
-          spellCheck={false}
-          aria-label="terminal input"
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              run(value.trim());
-              setValue("");
-            }
-          }}
-        />
-      </div>
-    </div>
-  );
-}
+//   return (
+//     <div
+//       className="terminal-inner"
+//       ref={bodyRef}
+//       onClick={() => inputRef.current?.focus()}
+//       style={{ cursor: "text", minHeight: 300, display: "flex", flexDirection: "column" }}
+//     >
+//       <div className="term-out" style={{ flex: 1 }}>
+//         {lines.map((l, i) => (
+//           <div className={`term-line ${l.cls || ""}`} key={i}>
+//             {l.text}
+//           </div>
+//         ))}
+//       </div>
+//       <div className="term-input-row">
+//         <span className="term-prompt">soham@portfolio&nbsp;~&nbsp;%</span>
+//         <input
+//           ref={inputRef}
+//           className="term-input"
+//           type="text"
+//           autoComplete="off"
+//           spellCheck={false}
+//           aria-label="terminal input"
+//           value={value}
+//           onChange={(e) => setValue(e.target.value)}
+//           onKeyDown={(e) => {
+//             if (e.key === "Enter") {
+//               run(value.trim());
+//               setValue("");
+//             }
+//           }}
+//         />
+//       </div>
+//     </div>
+//   );
+// }
